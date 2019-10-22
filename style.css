@@ -1,0 +1,13 @@
+.map {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+  flex-wrap : wrap;
+}
+.map .cell {
+  width: 20px;
+  height: 20px;
+  background-color: blue;
+  border: 1px solid black;
+}

@@ -2,12 +2,19 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Hello World</title>
+    <title>minesweeper</title>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <h1>Hello World</h1>
-    <p>안녕하세요! HTML5</p>
+    <form action = "#" accept-charset="utf-8" name = "gameSize">
+      <fieldset style = "width:150">
+        <legend>Map Size</legend>
+          x <input type = "text" name = "x"/><br><br>
+          y <input type = "text" name = "y"/><br><br>
+      </fieldset>
+    </form>
+    <button onclick="initGame()">click</button>
+
     <script type="text/javascript" src="game.js"></script>
-    <button id="button1">click</button>
   </body>
 </html>
