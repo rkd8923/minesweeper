@@ -10,4 +10,12 @@
   height: 20px;
   background-color: blue;
   border: 1px solid black;
+  cursor: pointer;
+}
+.map .opened {
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  border: 1px solid black;
+  cursor: pointer;
 }
