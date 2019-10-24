@@ -1,3 +1,6 @@
+// document.addEventListener('contextmenu', function() {
+//   event.preventDefault();
+// });
 function initGame() {
   const inputGameInfo = document.gameSize;
   const row = inputGameInfo.x.value;
@@ -11,7 +14,11 @@ function initGame() {
       mines.push(tempNum);
     }
   }
-
+  // remove Mine Map
+  let preMap = document.getElementById('map');
+  if (preMap) {
+    document.body.removeChild(preMap);
+  }
   // Make Mine Map
   let map = document.createElement('div');
   map.className = "map";
@@ -28,7 +35,11 @@ function initGame() {
     cell.setAttribute('flag', false);
     cell.addEventListener('click', (e) => {
       e.preventDefault();
-      clickCell(cell);
+      clickCell(cell, row, col);
+    });
+    cell.addEventListener('contextmenu', (e) => {
+      event.preventDefault();
+      rightClickCell(cell);
     });
     map.appendChild(cell);
   }
@@ -36,21 +47,63 @@ function initGame() {
   console.log('initGame', document);
 }
 
-function clickCell(cell) {
-  // console.log('clicked cell is', cell);
+function clickCell(cell, row, col) {
   if (checkBoolean(cell.getAttribute('flag'))) {
     return;
   } else if (!checkBoolean(cell.getAttribute('isOpened'))) {
-    openCell(cell);
+    openCell(cell, row, col);
   }
 }
 
-function openCell(cell) {
+function openCell(cell, row, col) {
+  if (checkBoolean(cell.getAttribute('isOpened'))) return;
+
   if (checkBoolean(cell.getAttribute('isMine'))) {
     openAllMines();
   } else {
-    cell.className = "opened"
+    if (checkBoolean(cell.getAttribute('flag'))) {
+      cell.removeChild(cell.firstChild);
+      cell.setAttribute('flag', false);
+    }
+    const nowX = parseInt(cell.getAttribute('positionX'));
+    const nowY = parseInt(cell.getAttribute('positionY'));
+    cell.className = "opened";
     cell.setAttribute('isOpened', true);
+    let tempCell;
+    if (checkNeighbor(cell, row, col)) {
+      if (nowX > 0 && nowY > 0) {
+        tempCell = document.getElementById('cell' + ((nowX-1)*row + (nowY-1)).toString());
+        openCell(tempCell, row, col);
+      }
+      if (nowX > 0) {
+        tempCell = document.getElementById('cell' + ((nowX-1)*row + nowY).toString());
+        openCell(tempCell, row, col);
+      }
+      if (nowX > 0 && nowY < (col-1)) {
+        tempCell = document.getElementById('cell' + ((nowX-1)*row + (nowY+1)).toString());
+        openCell(tempCell, row, col);
+      }
+      if (nowY > 0) {
+        tempCell = document.getElementById('cell' + (nowX*row + (nowY-1)).toString());
+        openCell(tempCell, row, col);
+      }
+      if (nowY < (col-1)) {
+        tempCell = document.getElementById('cell' + (nowX*row + (nowY+1)).toString());
+        openCell(tempCell, row, col);
+      }
+      if (nowX < (row-1) && nowY > 0) {
+        tempCell = document.getElementById('cell' + ((nowX+1)*row + (nowY-1)).toString());
+        openCell(tempCell, row, col);
+      }
+      if (nowX < (row-1)) {
+        tempCell = document.getElementById('cell' + ((nowX+1)*row + nowY).toString());
+        openCell(tempCell, row, col);
+      }
+      if (nowX < (row-1) && nowY < (col-1)) {
+        tempCell = document.getElementById('cell' + ((nowX+1)*row + (nowY+1)).toString());
+        openCell(tempCell, row, col);
+      }
+    }
   }
 }
 
@@ -58,11 +111,40 @@ function checkNeighbor(cell, row, col) {
   const nowX = parseInt(cell.getAttribute('positionX'));
   const nowY = parseInt(cell.getAttribute('positionY'));
   let ret = true;
-  let cell;
+  let tempCell;
   if (nowX > 0 && nowY > 0) {
-    cell = document.getElementById('cell' + (nowX*row + nowY).toString());
-    ret = ret && checkBoolean(!cell.getAttribute('isMine'));
+    tempCell = document.getElementById('cell' + ((nowX-1)*row + (nowY-1)).toString());
+    ret = ret && !checkBoolean(tempCell.getAttribute('isMine'));
   }
+  if (nowX > 0) {
+    tempCell = document.getElementById('cell' + ((nowX-1)*row + nowY).toString());
+    ret = ret && !checkBoolean(tempCell.getAttribute('isMine'));
+  }
+  if (nowX > 0 && nowY < (col-1)) {
+    tempCell = document.getElementById('cell' + ((nowX-1)*row + (nowY+1)).toString());
+    ret = ret && !checkBoolean(tempCell.getAttribute('isMine'));
+  }
+  if (nowY > 0) {
+    tempCell = document.getElementById('cell' + (nowX*row + (nowY-1)).toString());
+    ret = ret && !checkBoolean(tempCell.getAttribute('isMine'));
+  }
+  if (nowY < (col-1)) {
+    tempCell = document.getElementById('cell' + (nowX*row + (nowY+1)).toString());
+    ret = ret && !checkBoolean(tempCell.getAttribute('isMine'));
+  }
+  if (nowX < (row-1) && nowY > 0) {
+    tempCell = document.getElementById('cell' + ((nowX+1)*row + (nowY-1)).toString());
+    ret = ret && !checkBoolean(tempCell.getAttribute('isMine'));
+  }
+  if (nowX < (row-1)) {
+    tempCell = document.getElementById('cell' + ((nowX+1)*row + nowY).toString());
+    ret = ret && !checkBoolean(tempCell.getAttribute('isMine'));
+  }
+  if (nowX < (row-1) && nowY < (col-1)) {
+    tempCell = document.getElementById('cell' + ((nowX+1)*row + (nowY+1)).toString());
+    ret = ret && !checkBoolean(tempCell.getAttribute('isMine'));
+  }
+  return ret;
 }
 
 function openAllMines() {
@@ -76,6 +158,19 @@ function openAllMines() {
       cell.appendChild(mine);
     }
   });
+}
+
+function rightClickCell(cell) {
+  if (checkBoolean(cell.getAttribute('isOpened'))) return;
+
+  if (!checkBoolean(cell.getAttribute('flag'))) {
+    const flag = document.createTextNode('F');
+    cell.appendChild(flag);
+    cell.setAttribute('flag', true);
+  } else {
+    cell.removeChild(cell.firstChild);
+    cell.setAttribute('flag', false);
+  }
 }
 
 function checkBoolean(bool) {
