@@ -6,16 +6,17 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <form action = "#" accept-charset="utf-8" name = "gameSize">
-      <fieldset style = "width:150">
-        <legend>Map Size</legend>
-          x <input type = "text" name = "x"/><br><br>
-          y <input type = "text" name = "y"/><br><br>
-          mine <input type = "text" name = "mine"/><br><br>
-      </fieldset>
+    <form name = "gameSize">
+      <legend>Game Setting</legend>
+      <label>Row</label>
+      <input type = "text" name = "x" value = "5"/>
+      <label>Col</label>
+      <input type = "text" name = "y" value = "8"/>
+      <label>지뢰 수</label>
+      <input type = "text" name = "mine" value = "8"/>
     </form>
     <button onclick="initGame()">click</button>
-
+    <div id="timer">시간: 0</div>
     <script type="text/javascript" src="game.js"></script>
   </body>
 </html>

@@ -176,3 +176,12 @@ function rightClickCell(cell) {
 function checkBoolean(bool) {
   return bool === 'true';
 }
+
+function timer() {
+  const t = document.getElementById('timer');
+  let i = 0;
+  console.log('timter')
+  setInterval(() => {
+    t.textContent = '시간: ' + (i++).toString(); 
+  }, 1000);
+}
