@@ -7,16 +7,17 @@
   </head>
   <body>
     <form name = "gameSize">
-      <legend>Game Setting</legend>
       <label>Row</label>
-      <input type = "text" name = "x" value = "5"/>
+      <input type = "text" name = "x" value = "10"/>
       <label>Col</label>
-      <input type = "text" name = "y" value = "8"/>
+      <input type = "text" name = "y" value = "10"/>
       <label>지뢰 수</label>
-      <input type = "text" name = "mine" value = "1"/>
+      <input type = "text" name = "mine" value = "10"/>
     </form>
-    <button onclick="initGame()">click</button>
+    <button id="startButton" onclick="initGame()">시작</button>
     <div id="timer">시간: 0</div>
+    <div id="remains">남은 수: 0</div>
+    <button id="restartButton" onclick="restart()">재시작</button>
     <script type="text/javascript" src="game.js"></script>
   </body>
 </html>
