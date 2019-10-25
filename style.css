@@ -6,20 +6,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: red;
   flex-wrap : wrap;
 }
 .map .cell {
   width: 20px;
   height: 20px;
-  background-color: blue;
+  background-color: #cacaca;
   border: 1px solid black;
   cursor: pointer;
 }
 .map .opened {
   width: 20px;
   height: 20px;
-  background-color: red;
+  background-color: cyan;
   border: 1px solid black;
   cursor: pointer;
 }
