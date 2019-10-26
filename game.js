@@ -263,9 +263,9 @@ function clearTime() {
 }
 
 function checkInput(row, col, mine) {
-  if (row < 4) return false;
+  if (row < 5) return false;
   if (row > 31) return false;
-  if (col < 4) return false;
+  if (col < 5) return false;
   if (col > 31) return false;
   if (mine > row*col) return false;
   return true;
