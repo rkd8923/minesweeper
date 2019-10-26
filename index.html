@@ -6,18 +6,22 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <form name = "gameSize">
-      <label>Row</label>
-      <input type = "text" name = "x" value = "10"/>
-      <label>Col</label>
-      <input type = "text" name = "y" value = "10"/>
-      <label>지뢰 수</label>
-      <input type = "text" name = "mine" value = "10"/>
-    </form>
-    <button id="startButton" onclick="initGame()">시작</button>
-    <div id="timer">시간: 0</div>
-    <div id="remains">남은 수: 0</div>
-    <button id="restartButton" onclick="restart()">재시작</button>
+    <div id="minesweeper">
+      <form name = "gameSize">
+        <label>Row</label>
+        <input type = "text" name = "x" value = "10"/>
+        <label>Col</label>
+        <input type = "text" name = "y" value = "10"/>
+        <label>지뢰 수</label>
+        <input type = "text" name = "mine" value = "10"/>
+      </form>
+      <button id="startButton" onclick="initGame('start')">시작</button>
+      <div id="status">
+        <span id="remains">남은 수: 0</span>
+        <button id="restartButton" onclick="initGame('restart')">재시작</button>
+        <span id="timer">시간: 0</span>
+      </div>
+    </div>
     <script type="text/javascript" src="game.js"></script>
   </body>
 </html>

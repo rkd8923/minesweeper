@@ -1,8 +1,17 @@
-function initGame() {
+function initGame(mode) {
+  try {
+    clearTime();
+  } catch {}
+  const preMap = document.getElementById('map');
+  if (preMap===null && mode==='restart') {
+    alert('재시작할 데이터가 없습니다!');
+    return;
+  }
   const inputGameInfo = document.gameSize;
-  const row = inputGameInfo.x.value;
-  const col = inputGameInfo.y.value;
-  const numOfMines = inputGameInfo.mine.value;
+  const row = (mode==='start') ? inputGameInfo.x.value : parseInt(preMap.getAttribute('row'));
+  const col = (mode==='start') ? inputGameInfo.y.value : parseInt(preMap.getAttribute('col'));
+  const numOfMines = (mode==='start') ? inputGameInfo.mine.value :parseInt(preMap.getAttribute('numOfMines'));
+
   if (!checkInput(row, col, numOfMines)) {
     alert('row와 col은 5이상 30이하, 지뢰 수는 0이상 row*col 이하');
     return;
@@ -16,19 +25,20 @@ function initGame() {
     }
   }
   // remove Mine Map
-  let preMap = document.getElementById('map');
   if (preMap) {
-    document.body.removeChild(preMap);
+    document.getElementById('minesweeper').removeChild(preMap);
   }
   // Make Mine Map
   let map = document.createElement('div');
   map.className = "map";
   map.id = "map";
-  map.style.width = (col * 22).toString() + 'px';
+  map.style.width = (col * 26).toString() + 'px';
   map.setAttribute('gameStatus', 'before'); // before -> started -> clear || over 
   map.setAttribute('remainMines', numOfMines);
   map.setAttribute('numOfMines', numOfMines);
   map.setAttribute('openedCell', 0);
+  map.setAttribute('row', row);
+  map.setAttribute('col', col);
   document.getElementById('remains').textContent = '남은 수: ' + numOfMines.toString();
   // Make Cells
   for (let i=0; i<row*col; i++) {
@@ -57,11 +67,7 @@ function initGame() {
     });
     map.appendChild(cell);
   }
-  document.body.appendChild(map);
-  const startButton = document.getElementById('startButton');
-  if (startButton) {
-    document.body.removeChild(startButton);
-  }
+  document.getElementById('minesweeper').appendChild(map);
 }
 
 function clickCell(cell, row, col) {
@@ -188,7 +194,8 @@ function openAllMines() {
       if (cell.firstChild) {
         cell.removeChild(cell.firstChild);
       }
-      const mine = document.createTextNode('X');
+      const mine = document.createElement('img');
+      mine.setAttribute("src", "static/bomb.png");
       cell.setAttribute('isOpened', true);
       cell.className = 'mine';
       cell.appendChild(mine);
@@ -200,7 +207,8 @@ function rightClickCell(cell) {
   if (checkBoolean(cell.getAttribute('isOpened'))) return;
   const tempMap = document.getElementById('map');
   if (!checkBoolean(cell.getAttribute('flag'))) {
-    const flag = document.createTextNode('F');
+    const flag = document.createElement('img');
+    flag.setAttribute("src", "static/flag-triangle.png");
     cell.appendChild(flag);
     cell.setAttribute('flag', true);
     let mines = parseInt(tempMap.getAttribute('remainMines')) - 1;
@@ -241,18 +249,17 @@ function clearGame() {
 }
 
 function timer() {
-  let i = 0;
+  let i = 1;
   timeInterval = setInterval(() => {
     const t = document.getElementById('timer');
     t.textContent = '시간: ' + (i++).toString();
   }, 1000);
 }
 
-function restart() {
+function clearTime() {
   clearInterval(timeInterval);
   const t = document.getElementById('timer');
   t.textContent = '시간: 0'; 
-  initGame();  
 }
 
 function checkInput(row, col, mine) {

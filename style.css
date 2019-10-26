@@ -4,8 +4,8 @@ body {
 }
 form {
   display: flex;
-  flex-direction: column;
-  width: 80px;
+  justify-content: space-between;
+  width: 700px;
   border: 1px solid #cacaca;
   padding: 10px;
 }
@@ -21,6 +21,14 @@ button {
   flex-direction: column;
   justify-content: space-around;
 } */
+#minesweeper {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  width: 100%;
+
+}
 .map {
   display: flex;
   align-items: center;
@@ -31,8 +39,8 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   background-color: #cacaca;
   border: 1px solid black;
   cursor: pointer;
@@ -41,8 +49,8 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   background-color: cyan;
   border: 1px solid black;
 }
@@ -50,8 +58,11 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   background-color: pink;
   border: 1px solid black;
+}
+#minesweeper #startButton {
+  width: 60px;
 }
