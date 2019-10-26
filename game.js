@@ -268,5 +268,6 @@ function checkInput(row, col, mine) {
   if (col < 5) return false;
   if (col > 31) return false;
   if (mine > row*col) return false;
+  if (mine < 0) return false;
   return true;
 }
